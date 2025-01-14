@@ -57,7 +57,7 @@ class MainWindow(QMainWindow):
         self.rules_manager = RulesManager('rules.json')
 
     def initUI(self):
-        self.setWindowTitle('Word File Checker')
+        self.setWindowTitle('Translation Linter')
         self.setGeometry(100, 100, 400, 200)
 
         self.select_button = QPushButton('Select File', self)
