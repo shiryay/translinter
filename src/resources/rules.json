@@ -1,0 +1,279 @@
+{
+    "rules": [
+      {
+        "id": 1,
+        "bug": "\\bMr\\s|\\bMs\\s|\\bMrs\\.*\\s",
+        "tip": "Use \"Ms.\" and \"Mr.\" only"
+      },
+      {
+        "id": 2,
+        "bug": "domicile\\w*",
+        "tip": "Do not use \"domicile\""
+      },
+      {
+        "id": 3,
+        "bug": "declar\\w+",
+        "tip": "Use \"deponent\" for \"declarant\"; \"state\" or \"report\" instead of \"declare\""
+      },
+      {
+        "id": 4,
+        "bug": "Maitre",
+        "tip": "Use \"Mr.\""
+      },
+      {
+        "id": 5,
+        "bug": "inform\\w*",
+        "tip": "Use \"report\" or \"state\" instead of \"inform\""
+      },
+      {
+        "id": 6,
+        "bug": "labou*r relations",
+        "tip": "Use \"employment relations\""
+      },
+      {
+        "id": 7,
+        "bug": "a permission",
+        "tip": "Use \"permission\" without article"
+      },
+      {
+        "id": 8,
+        "bug": "\\btill\\b",
+        "tip": "Use \"until\""
+      },
+      {
+        "id": 9,
+        "bug": "Civil Status",
+        "tip": "Use \"Civil Registry\""
+      },
+      {
+        "id": 10,
+        "bug": "\\bpresent\\b",
+        "tip": "Use \"this\" - NOT \"present\""
+      },
+      {
+        "id": 11,
+        "bug": "\\bsaid\\b",
+        "tip": "Use \"above\" and so forth"
+      },
+      {
+        "id": 12,
+        "bug": "ing* (the )*(day(-|\\s)*time)",
+        "tip": "Use \"during the day\""
+      },
+      {
+        "id": 13,
+        "bug": "physical training",
+        "tip": "Use \"physical education\""
+      },
+      {
+        "id": 14,
+        "bug": "\\bnatural[^-]",
+        "tip": "Use \"natural-born\" regarding son or daughter"
+      },
+      {
+        "id": 15,
+        "bug": "per[\\s|-]cent",
+        "tip": "Use \"percent\""
+      },
+      {
+        "id": 16,
+        "bug": "particulars",
+        "tip": "Use \"details\""
+      },
+      {
+        "id": 17,
+        "bug": "surname",
+        "tip": "Use \"last name\""
+      },
+      {
+        "id": 18,
+        "bug": "therapy",
+        "tip": "Use \"internal medicine\""
+      },
+      {
+        "id": 19,
+        "bug": "protocol",
+        "tip": "Use \"report\" or \"certificate\""
+      },
+      {
+        "id": 20,
+        "bug": "aspect\\b",
+        "tip": "Use \"aspects\""
+      },
+      {
+        "id": 21,
+        "bug": "high(\\s|-)school",
+        "tip": "Use \"secondary school\""
+      },
+      {
+        "id": 22,
+        "bug": "retain\\w*",
+        "tip": "Use \"detain\" for police activity"
+      },
+      {
+        "id": 23,
+        "bug": "finish\\w*(\\s+|\\s+\\w+\\s*)school",
+        "tip": "Use \"graduate from\""
+      },
+      {
+        "id": 24,
+        "bug": "competence\\w*",
+        "tip": "Use \"competency\""
+      },
+      {
+        "id": 25,
+        "bug": "technologies",
+        "tip": "Use \"technology\""
+      },
+      {
+        "id": 26,
+        "bug": "almost good",
+        "tip": "Use \"fair\""
+      },
+      {
+        "id": 27,
+        "bug": "approved",
+        "tip": "Use \"passed\" if it regards exams"
+      },
+      {
+        "id": 28,
+        "bug": "bachelor",
+        "tip": "Check if secondary school baccalaureate is not what is meant"
+      },
+      {
+        "id": 29,
+        "bug": "admit\\w* to(\\s+|\\s+\\w+\\s*)exam",
+        "tip": "Use \"passed the exam\""
+      },
+      {
+        "id": 30,
+        "bug": "educational",
+        "tip": "\"Education\" is preferred instead of the adjective"
+      },
+      {
+        "id": 31,
+        "bug": "valeolog\\w*",
+        "tip": "Use \"health\""
+      },
+      {
+        "id": 32,
+        "bug": "oriental",
+        "tip": "Use \"Asian\" if it concerns a language"
+      },
+      {
+        "id": 33,
+        "bug": "studied language\\w*",
+        "tip": "Use \"language of study\""
+      },
+      {
+        "id": 34,
+        "bug": "further math\\w*",
+        "tip": "Use \"advanced mathematics\""
+      },
+      {
+        "id": 35,
+        "bug": "office of (record|records)\\w*",
+        "tip": "Use \"office of the registrar\""
+      },
+      {
+        "id": 36,
+        "bug": "polytechnic industrial",
+        "tip": "Use \"industrial polytechnic\""
+      },
+      {
+        "id": 37,
+        "bug": "technician\\w*",
+        "tip": "Use \"technical diploma\" if it's a degree"
+      },
+      {
+        "id": 38,
+        "bug": "pre-*school",
+        "tip": "Use \"early childhood\""
+      },
+      {
+        "id": 39,
+        "bug": "school\\w*",
+        "tip": "Use \"faculty\" if it concerns higher education"
+      },
+      {
+        "id": 40,
+        "bug": "\\w{2,}(our|ours)",
+        "tip": "Looks like British spelling"
+      },
+      {
+        "id": 41,
+        "bug": "\\w*[^w](ise|ised|ising|yse|ysed|ysing)",
+        "tip": "Looks like British spelling"
+      },
+      {
+        "id": 42,
+        "bug": "\\w{2,}(ogue|ogues)",
+        "tip": "Looks like British spelling"
+      },
+      {
+        "id": 43,
+        "bug": "fulfil\\s",
+        "tip": "Looks like British spelling, double l is required"
+      },
+      {
+        "id": 44,
+        "bug": "fulfil(ed|ing|ment)",
+        "tip": "Looks like British spelling, double l is required"
+      },
+      {
+        "id": 45,
+        "bug": "\\w+(geing)",
+        "tip": "Looks like British spelling, e is not US spelling here"
+      },
+      {
+        "id": 46,
+        "bug": "\\w+ae\\w+",
+        "tip": "Looks like British spelling, a is not US spelling in \"aesthetics\", etc."
+      },
+      {
+        "id": 47,
+        "bug": "\\w{2,}(tre|tres)\\b",
+        "tip": "Looks like British spelling, US spelling is \"-ter\""
+      },
+      {
+        "id": 48,
+        "bug": "storey(s*)",
+        "tip": "Looks like British spelling, \"story\" is US spelling"
+      },
+      {
+        "id": 49,
+        "bug": "offence\\w*",
+        "tip": "Looks like British spelling, \"offense\" is US spelling"
+      },
+      {
+        "id": 50,
+        "bug": "of the (one|other) part",
+        "tip": "Looks like British spelling, use \"of the first/second part\""
+      },
+      {
+        "id": 51,
+        "bug": "\\b(?:city|district|borough|town|region|government|municipality)\\b",
+        "tip": "Consider starting this word with a capital letter"
+      },
+      {
+        "id": 52,
+        "bug": "applicant\\w*",
+        "tip": "Use \"petitioner\" if it is a legal setting"
+      },
+      {
+        "id": 53,
+        "bug": "from.{2,25}to\\b",
+        "tip": "Use \"from... until...\" with dates, time, etc."
+      },
+      {
+        "id": 54,
+        "bug": "achievement\\b",
+        "tip": "Use \"successful completion\" in certificate titles"
+      },
+      {
+          "id": 55,
+          "bug": "primary\\b",
+          "tip": "Use \"elementary\" if it concerns secondary school level"
+      }
+    ]
+  }
