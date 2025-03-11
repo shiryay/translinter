@@ -54,7 +54,7 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Translation Linter')
-        self.geometry('400x200')
+        self.geometry('500x400')
         self.rules_manager = RulesManager('rules.json')
         self.file_path = None
         
@@ -74,6 +74,10 @@ class MainWindow(tk.Tk):
 
         self.update_check_btn = tk.Button(self, text='Check for Updates', command=self.check_for_updates)
         self.update_check_btn.place(x=200, y=100, width=150, height=30)
+
+        # Multiline text box
+        self.text_box = tk.Text(self, wrap='word')
+        self.text_box.place(x=50, y=150, width=400, height=200)
 
     def select_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Word Files", "*.docx")])
@@ -115,6 +119,8 @@ class MainWindow(tk.Tk):
                 message = '\n'.join(errors) if errors else 'No errors found'
                 msg_type = messagebox.showwarning if errors else messagebox.showinfo
                 self.after(0, lambda: msg_type("Check Results", message))
+                self.text_box.delete(1.0, tk.END)
+                self.text_box.insert(tk.END, message)
             except Exception as e:
                 self.after(0, lambda: messagebox.showerror("Error", f"File check failed: {str(e)}"))
         
