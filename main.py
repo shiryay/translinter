@@ -55,7 +55,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title('Translation Linter')
         self.geometry('440x340')
-        self.rules_manager = RulesManager('..//rules.json')
+        self.rules_manager = RulesManager('rules.json')
         self.file_path = None
         
         self.create_widgets()
