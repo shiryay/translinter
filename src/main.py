@@ -1,8 +1,8 @@
-import sys
+import tkinter as tk
+from tkinter import filedialog, messagebox
+import threading
 import json
 import requests
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QFileDialog, QMessageBox
-from PyQt5.QtCore import QThread, pyqtSignal
 import docx
 import os
 
@@ -34,93 +34,95 @@ class RulesManager:
             file.write(response.text)
         self.rules = self.load_rules()
 
-class Updater(QThread):
-    update_available = pyqtSignal(bool)
-
-    def __init__(self, current_version, repo_url):
+class Updater(threading.Thread):
+    def __init__(self, current_version, repo_url, callback):
         super().__init__()
         self.current_version = current_version
         self.repo_url = repo_url
+        self.callback = callback
 
     def run(self):
-        response = requests.get(f"{self.repo_url}/releases/latest")
-        latest_version = response.json()['tag_name']
-        if latest_version != self.current_version:
-            self.update_available.emit(True)
-        else:
-            self.update_available.emit(False)
+        try:
+            response = requests.get(f"{self.repo_url}/releases/latest")
+            latest_version = response.json()['tag_name']
+            self.callback(latest_version != self.current_version)
+        except Exception as e:
+            print(f"Update check failed: {e}")
+            self.callback(False)
 
-class MainWindow(QMainWindow):
+class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.initUI()
+        self.title('Translation Linter')
+        self.geometry('400x200')
         self.rules_manager = RulesManager('rules.json')
+        self.file_path = None
+        
+        self.create_widgets()
 
-    def initUI(self):
-        self.setWindowTitle('Translation Linter')
-        self.setGeometry(100, 100, 400, 200)
+    def create_widgets(self):
+        # File selection buttons
+        self.select_btn = tk.Button(self, text='Select File', command=self.select_file)
+        self.select_btn.place(x=50, y=50, width=100, height=30)
 
-        self.select_button = QPushButton('Select File', self)
-        self.select_button.setGeometry(50, 50, 100, 30)
-        self.select_button.clicked.connect(self.select_file)
+        self.save_btn = tk.Button(self, text='Save File', command=self.save_file)
+        self.save_btn.place(x=200, y=50, width=100, height=30)
 
-        self.save_button = QPushButton('Save File', self)
-        self.save_button.setGeometry(200, 50, 100, 30)
-        self.save_button.clicked.connect(self.save_file)
+        # Update buttons
+        self.update_rules_btn = tk.Button(self, text='Update Rules', command=self.update_rules)
+        self.update_rules_btn.place(x=50, y=100, width=100, height=30)
 
-        self.update_rules_button = QPushButton('Update Rules', self)
-        self.update_rules_button.setGeometry(50, 100, 100, 30)
-        self.update_rules_button.clicked.connect(self.update_rules)
-
-        self.check_updates_button = QPushButton('Check for Updates', self)
-        self.check_updates_button.setGeometry(200, 100, 150, 30)
-        self.check_updates_button.clicked.connect(self.check_for_updates)
+        self.update_check_btn = tk.Button(self, text='Check for Updates', command=self.check_for_updates)
+        self.update_check_btn.place(x=200, y=100, width=150, height=30)
 
     def select_file(self):
-        options = QFileDialog.Options()
-        file_path, _ = QFileDialog.getOpenFileName(self, "Select Word File", "", "Word Files (*.docx)", options=options)
+        file_path = filedialog.askopenfilename(filetypes=[("Word Files", "*.docx")])
         if file_path:
             self.file_path = file_path
             self.check_file()
 
     def save_file(self):
-        options = QFileDialog.Options()
-        save_path, _ = QFileDialog.getSaveFileName(self, "Save Word File", "", "Word Files (*.docx)", options=options)
+        save_path = filedialog.asksaveasfilename(
+            defaultextension=".docx",
+            filetypes=[("Word Files", "*.docx")]
+        )
         if save_path:
-            # Implement saving logic here
+            # Add your save logic here
             pass
 
     def update_rules(self):
-        url = 'https://raw.githubusercontent.com/your-repo/rules.json'
-        self.rules_manager.update_rules(url)
-        QMessageBox.information(self, 'Update', 'Rules updated successfully!')
+        def update_task():
+            try:
+                self.rules_manager.update_rules('https://raw.githubusercontent.com/your-repo/rules.json')
+                self.after(0, lambda: messagebox.showinfo("Success", "Rules updated successfully!"))
+            except Exception as e:
+                self.after(0, lambda: messagebox.showerror("Error", f"Rule update failed: {str(e)}"))
+        
+        threading.Thread(target=update_task, daemon=True).start()
 
     def check_for_updates(self):
-        current_version = '1.0.0'
-        repo_url = 'https://api.github.com/repos/your-repo'
-        self.updater = Updater(current_version, repo_url)
-        self.updater.update_available.connect(self.handle_update_check)
-        self.updater.start()
-
-    def handle_update_check(self, update_available):
-        if update_available:
-            QMessageBox.information(self, 'Update', 'A new version is available!')
-        else:
-            QMessageBox.information(self, 'Update', 'You are using the latest version.')
+        def update_callback(available):
+            message = "New version available!" if available else "You're up to date!"
+            self.after(0, lambda: messagebox.showinfo("Update Check", message))
+        
+        Updater('1.0.0', 'https://api.github.com/repos/your-repo', update_callback).start()
 
     def check_file(self):
-        checker = FileChecker(self.rules_manager.rules)
-        errors = checker.check_file(self.file_path)
-        if errors:
-            QMessageBox.warning(self, 'Errors Found', '\n'.join(errors))
-        else:
-            QMessageBox.information(self, 'No Errors', 'No errors found in the file.')
+        def check_task():
+            try:
+                checker = FileChecker(self.rules_manager.rules)
+                errors = checker.check_file(self.file_path)
+                message = '\n'.join(errors) if errors else 'No errors found'
+                msg_type = messagebox.showwarning if errors else messagebox.showinfo
+                self.after(0, lambda: msg_type("Check Results", message))
+            except Exception as e:
+                self.after(0, lambda: messagebox.showerror("Error", f"File check failed: {str(e)}"))
+        
+        threading.Thread(target=check_task, daemon=True).start()
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
-    sys.exit(app.exec_())
+    app = MainWindow()
+    app.mainloop()
 
 '''
 Make sure to place your rules.json file in the same directory as main.py or adjust the path accordingly. Replace 'https://raw.githubusercontent.com/your-repo/rules.json' and 'https://api.github.com/repos/your-repo' with the actual URLs of your GitHub repository.
