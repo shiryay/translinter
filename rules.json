@@ -274,6 +274,21 @@
           "id": 55,
           "bug": "primary\\b",
           "tip": "Use \"elementary\" if it concerns secondary school level"
+      },
+      {
+          "id": 56,
+          "bug": "ID docum\\w*",
+          "tip": "Use \"ID Card\" or just \"ID\" to avoid tautology (ID = identity document)"
+      },
+      {
+          "id": 57,
+          "bug": "property owner",
+          "tip": "Use \"interested party\" for \"proprietaire\""
+      },
+      {
+          "id": 58,
+          "bug": "at\\s(\\w+\\s){1,3}office",
+          "tip": "Consider using \"in my/their/the office\""
       }
     ]
   }
