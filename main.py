@@ -54,30 +54,32 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Translation Linter')
-        self.geometry('500x400')
-        self.rules_manager = RulesManager('rules.json')
+        self.geometry('440x340')
+        self.rules_manager = RulesManager('..//rules.json')
         self.file_path = None
         
         self.create_widgets()
 
     def create_widgets(self):
+        # Multiline text box
+        self.text_box = tk.Text(self, wrap='word')
+        self.text_box.place(x=20, y=20, width=400, height=200)
+        
         # File selection buttons
         self.select_btn = tk.Button(self, text='Select File', command=self.select_file)
-        self.select_btn.place(x=50, y=50, width=100, height=30)
+        self.select_btn.place(x=20, y=240, width=100, height=30)
 
         self.save_btn = tk.Button(self, text='Save File', command=self.save_file)
-        self.save_btn.place(x=200, y=50, width=100, height=30)
+        self.save_btn.place(x=200, y=240, width=100, height=30)
 
         # Update buttons
         self.update_rules_btn = tk.Button(self, text='Update Rules', command=self.update_rules)
-        self.update_rules_btn.place(x=50, y=100, width=100, height=30)
+        self.update_rules_btn.place(x=20, y=290, width=100, height=30)
 
         self.update_check_btn = tk.Button(self, text='Check for Updates', command=self.check_for_updates)
-        self.update_check_btn.place(x=200, y=100, width=150, height=30)
+        self.update_check_btn.place(x=200, y=290, width=150, height=30)
 
-        # Multiline text box
-        self.text_box = tk.Text(self, wrap='word')
-        self.text_box.place(x=50, y=150, width=400, height=200)
+
 
     def select_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("Word Files", "*.docx")])
