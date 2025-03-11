@@ -99,7 +99,7 @@ class MainWindow(tk.Tk):
     def update_rules(self):
         def update_task():
             try:
-                self.rules_manager.update_rules('https://raw.githubusercontent.com/your-repo/rules.json')
+                self.rules_manager.update_rules('https://raw.githubusercontent.com/shiryay/translinter/refs/heads/master/rules.json')
                 self.after(0, lambda: messagebox.showinfo("Success", "Rules updated successfully!"))
             except Exception as e:
                 self.after(0, lambda: messagebox.showerror("Error", f"Rule update failed: {str(e)}"))
@@ -111,7 +111,7 @@ class MainWindow(tk.Tk):
             message = "New version available!" if available else "You're up to date!"
             self.after(0, lambda: messagebox.showinfo("Update Check", message))
         
-        Updater('1.0.0', 'https://api.github.com/repos/your-repo', update_callback).start()
+        Updater('1.0.0', 'https://raw.githubusercontent.com/shiryay/translinter', update_callback).start()
 
     def check_file(self):
         def check_task():
