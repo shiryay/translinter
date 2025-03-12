@@ -1,6 +1,7 @@
 #! python3
 # -*-coding: utf-8-*-
 
+import docx
 import os
 import json
 import re
@@ -8,7 +9,7 @@ import sys
 import win32com.client
 
 
-class Controller:
+class Validator:
 
     def __init__(self, file_name: str):
         self.rules_file = "rules.json"
@@ -51,7 +52,6 @@ class Controller:
 
         # show report
         self.show_report()
-        sys.exit()
 
     def write_header_to_report(self):
         self.write_to_report(f"Checking {self.doc.Name}")
@@ -118,10 +118,10 @@ class Controller:
     def check_stop_phrases(self) -> None:
         # rule is a tuple of (regex, usage_tip)
         for rule in self.rules:
-            pattern = rule[0]
+            pattern = rule[1]
             results = re.findall(pattern, self.processed_text, re.IGNORECASE)
             for result in results:
-                report_line = f"{result} - {rule[1]}"
+                report_line = f"{result} - {rule[2]}"
                 self.write_to_report(report_line)
 
     def is_found(self, target: str) -> bool:
@@ -150,21 +150,3 @@ class Controller:
 
     def unload_rules(self) -> None:
         self.rules = []
-
-
-if __name__ == "__main__":
-    try:
-        if not os.path.exists(sys.argv[1]):
-            print("File not found! Exiting...")
-            sys.exit()
-        if (
-            sys.argv[1].endswith(".doc")
-            or sys.argv[1].endswith(".docx")
-            or sys.argv[1].endswith(".rtf")
-        ):
-            ctr = Controller(sys.argv[1])
-            ctr.validate()
-        else:
-            print("Wrong file extension!")
-    except IndexError:
-        print("You need to specify the file to validate")
