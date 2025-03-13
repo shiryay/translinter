@@ -42,8 +42,3 @@ class MainWindow(tk.Tk):
 if __name__ == '__main__':
     app = MainWindow()
     app.mainloop()
-
-'''
-Make sure to place your rules.json file in the same directory as main.py or adjust the path accordingly. Replace 'https://raw.githubusercontent.com/your-repo/rules.json' and 'https://api.github.com/repos/your-repo' with the actual URLs of your GitHub repository.
-"Compilation": pyinstaller --onefile --windowed src/main.py
-'''
