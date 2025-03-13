@@ -7,6 +7,7 @@ import json
 import re
 import sys
 import win32com.client
+from tkinter import messagebox
 
 
 class Validator:
@@ -15,21 +16,24 @@ class Validator:
         self.rules_file = "rules.json"
         self.load_rules()
         self.processed_file = file_name
+        self.report_file = os.path.dirname(file_name) + "\\" + "report.txt" 
         self.word = None
-        self.doc = self.open_doc()
-        self.processed_text = self.grab_text()
-        self.report_file = os.path.dirname(file_name) + "\\" + "report.txt"
+        self.doc = None
+        self.processed_text = ''
+        self.open_doc()
+        self.grab_text()
+
 
     def open_doc(self) -> object:
         try:
             self.word = win32com.client.Dispatch("Word.Application")
             self.word.visible = False
             wb = self.word.Documents.Open(self.processed_file)
-            return self.word.ActiveDocument
+            self.doc = self.word.ActiveDocument
         except FileNotFoundError:
-            print("File was not found...")
+            messagebox.showerror("Error", "File was not found...")
         except:
-            print("Something went wrong :-(")
+             messagebox.showerror("Error", "Something went wrong :-(")
 
     def validate(self) -> None:
         self.write_header_to_report()
@@ -59,7 +63,7 @@ class Validator:
         self.write_to_report(f"{line}\n")
 
     def grab_text(self) -> str:
-        return self.doc.Content.Text
+        self.processed_text = self.doc.Content.Text
         # return str(self.doc.Range().Text)
 
     def write_to_report(self, report_line: str) -> None:
@@ -117,11 +121,11 @@ class Validator:
 
     def check_stop_phrases(self) -> None:
         # rule is a tuple of (regex, usage_tip)
-        for rule in self.rules:
-            pattern = rule[1]
+        for rule in self.rules['rules']:
+            pattern = rule['bug']
             results = re.findall(pattern, self.processed_text, re.IGNORECASE)
             for result in results:
-                report_line = f"{result} - {rule[2]}"
+                report_line = f"{result} - {rule['tip']}"
                 self.write_to_report(report_line)
 
     def is_found(self, target: str) -> bool:
@@ -142,11 +146,10 @@ class Validator:
 
     def load_rules(self) -> None:
         if os.path.exists(self.rules_file):
-            with open("rules.json", "r") as rules_file:
+            with open(self.rules_file, "r") as rules_file:
                 self.rules = json.load(rules_file)
         else:
-            print("No rules file found! Run manage_rules.exe to create the rules file.")
-            sys.exit()
+            print("No rules file found! Click 'Update Rules' to download the rules file.")
 
     def unload_rules(self) -> None:
         self.rules = []
