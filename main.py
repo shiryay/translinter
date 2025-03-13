@@ -1,6 +1,8 @@
 import sys
 import tkinter as tk
 from tkinter import filedialog, messagebox
+import validate
+import update
 from validate import Validator
 from update import Updater
 
