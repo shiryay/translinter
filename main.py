@@ -1,6 +1,5 @@
 import sys
 import tkinter as tk
-from tkinter import filedialog, messagebox
 import validate
 import update
 from validate import Validator
@@ -10,17 +9,16 @@ class MainWindow(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title('Translation Linter')
-        self.geometry('260x120')
+        self.geometry('760x340')
         self.updater = Updater()
-        self.file_path = None
         
         self.create_widgets()
         self.updater.check_for_rules_update()
 
     def create_widgets(self):
         # File selection buttons
-        self.select_btn = tk.Button(self, text='Select File', command=self.select_file)
-        self.select_btn.place(x=20, y=20, width=100, height=30)
+        self.validate_btn = tk.Button(self, text='Validate', command=self.validate_text)
+        self.validate_btn.place(x=20, y=20, width=100, height=30)
 
         # Update button
         self.update_rules_btn = tk.Button(self, text='Update Rules', command=self.updater.update_rules)
@@ -28,15 +26,18 @@ class MainWindow(tk.Tk):
 
         # Exit button
         self.update_check_btn = tk.Button(self, text='Exit', command=sys.exit)
-        self.update_check_btn.place(x=140, y=70, width=100, height=30)
+        self.update_check_btn.place(x=20, y=120, width=100, height=30)
 
-    def select_file(self):
-        file_path = filedialog.askopenfilename(filetypes=[("Word Files", "*.docx")])
-        if file_path:
-            self.file_path = file_path
-            validator = Validator(self.file_path)
-            validator.validate()
-            del validator
+        # Text box
+        self.text_box = tk.Text(self, height=200, width=600)
+        self.text_box.place(x=140, y=20, width=600, height=300)
+
+    def validate_text(self):
+        validator = Validator(self.text_box.get('1.0', tk.END))
+        self.report = validator.validate()
+        del validator
+        self.text_box.delete('1.0', tk.END)
+        self.text_box.insert(tk.END, self.report)
 
 
 if __name__ == '__main__':
