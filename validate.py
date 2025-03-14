@@ -1,12 +1,6 @@
-#! python3
-# -*-coding: utf-8-*-
-
-import docx
 import os
 import json
 import re
-import sys
-import win32com.client
 from tkinter import messagebox
 
 
