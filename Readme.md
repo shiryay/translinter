@@ -12,3 +12,7 @@ Translation Linter is a Python application that helps you validate and check tra
 - Generate a report of errors found in the document.
 
 Compilation: `pyinstaller --onefile --add-data "rules.json;." --windowed  main.py`
+
+TODO:
+1. Update inform rule to exclude 'information'
+2. Add software update notification functionality
