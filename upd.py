@@ -11,8 +11,10 @@ def kill_process(process_name):
                 proc.kill()
         except (psutil.NoSuchProcess, psutil.AccessDenied):
             pass
+
 try:
     response = requests.get(url)
+    # close the updated software
     kill_process('validate.exe')
     with open('validate.exe', 'wb') as file:
         file.write(response.content)
