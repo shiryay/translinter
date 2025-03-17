@@ -5,8 +5,8 @@ from tkinter import messagebox
 class Updater:
     def __init__(self):
         self.rules_file = 'rules.json'
-        self.github_raw_url = 'https://raw.githubusercontent.com/shiryay/translinter/refs/heads/master/rules.json'
-
+        self.github_raw_url = 'https://raw.githubusercontent.com/shiryay/translinter/refs/heads/main/rules.json'
+        self.version_url = "https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt"
     def check_for_rules_update(self):
         try:
             # Get GitHub content
@@ -41,7 +41,20 @@ class Updater:
 
     def newer_version_found(self) -> bool:
         # compare versions in version.txt
-        return True # stub
+        from packaging import version
+        try:
+            # Read GitHub version
+            response = requests.get(self.version_url)
+            github_version = response.text.strip()
+            
+            # Read local version
+            with open('version.txt', 'r') as f:
+                local_version = f.read().strip()
+            
+            return version.parse(github_version) > version.parse(local_version)
+        except Exception as e:
+            messagebox.showerror("Error", f"Version check failed: {str(e)}")
+            return False
 
     def check_for_sw_update(self):
         if self.newer_version_found():
@@ -50,6 +63,8 @@ class Updater:
     def update_prog(self):
         # run upd.exe
         import subprocess
+        # request permission to update
+        # call upd.exe that will kill the validator and update it
         try:
             subprocess.run(['upd.exe'], check=True)
             messagebox.showinfo("Success", "Software update completed!")
