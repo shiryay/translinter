@@ -43,3 +43,7 @@ class Updater:
         # compare versions in version.txt
         # If update available, prompt to click button that would close the program and run upd.exe
         pass
+
+    def update_prog(self):
+        # run upd.exe
+        pass

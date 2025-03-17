@@ -28,9 +28,13 @@ class MainWindow(tk.Tk):
         self.update_rules_btn = tk.Button(self, text='Update Rules', command=self.updater.update_rules)
         self.update_rules_btn.place(x=20, y=120, width=100, height=30)
 
+        # Update program button
+        self.update_prog_btn = tk.Button(self, text='Update Linter', command=self.updater.update_prog)
+        self.update_prog_btn.place(x=20, y=170, width=100, height=30)
+
         # Exit button
         self.update_check_btn = tk.Button(self, text='Exit', command=sys.exit)
-        self.update_check_btn.place(x=20, y=170, width=100, height=30)
+        self.update_check_btn.place(x=20, y=220, width=100, height=30)
 
         # Text box
         self.text_box = tk.Text(self, height=200, width=600)
