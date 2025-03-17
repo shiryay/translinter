@@ -38,3 +38,8 @@ class Updater:
             messagebox.showinfo("Success", "Rules updated successfully!")
         except Exception as e:
             messagebox.showerror("Error", f"Rule update failed: {str(e)}")
+
+    def check_for_sw_update(self):
+        # compare versions in version.txt
+        # If update available, prompt to click button that would close the program and run upd.exe
+        pass
