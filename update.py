@@ -39,11 +39,21 @@ class Updater:
         except Exception as e:
             messagebox.showerror("Error", f"Rule update failed: {str(e)}")
 
-    def check_for_sw_update(self):
+    def newer_version_found(self) -> bool:
         # compare versions in version.txt
-        # If update available, prompt to click button that would close the program and run upd.exe
-        pass
+        return True # stub
+
+    def check_for_sw_update(self):
+        if self.newer_version_found():
+            self.update_prog()
 
     def update_prog(self):
         # run upd.exe
-        pass
+        import subprocess
+        try:
+            subprocess.run(['upd.exe'], check=True)
+            messagebox.showinfo("Success", "Software update completed!")
+        except subprocess.CalledProcessError as e:
+            messagebox.showerror("Error", f"Update failed: {str(e)}")
+        except FileNotFoundError:
+            messagebox.showerror("Error", "Update file not found")
