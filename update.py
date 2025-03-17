@@ -5,8 +5,9 @@ from tkinter import messagebox
 class Updater:
     def __init__(self):
         self.rules_file = 'rules.json'
-        self.github_raw_url = 'https://raw.githubusercontent.com/shiryay/translinter/refs/heads/main/rules.json'
+        self.github_raw_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
         self.version_url = "https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt"
+
     def check_for_rules_update(self):
         try:
             # Get GitHub content
@@ -55,10 +56,6 @@ class Updater:
         except Exception as e:
             messagebox.showerror("Error", f"Version check failed: {str(e)}")
             return False
-
-    def check_for_sw_update(self):
-        if self.newer_version_found():
-            self.update_prog()
 
     def update_prog(self):
         # run upd.exe

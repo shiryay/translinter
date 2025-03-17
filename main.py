@@ -14,6 +14,8 @@ class MainWindow(tk.Tk):
         
         self.create_widgets()
         self.updater.check_for_rules_update()
+        if self.updater.newer_version_found():
+            self.updater.update_prog()
 
     def create_widgets(self):
         # File selection buttons
