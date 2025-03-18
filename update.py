@@ -11,7 +11,7 @@ class Updater:
 
         self.rules_file = 'rules.json'
         self.rules_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
-        self.version_url = "https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt"
+        self.version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
 
     def check_for_rules_update(self):
 
