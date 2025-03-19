@@ -14,7 +14,6 @@ class Updater:
         self.version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
 
     def check_for_rules_update(self):
-
         try:
             # Get GitHub content
             response = requests.get(self.rules_url)
@@ -34,22 +33,20 @@ class Updater:
             )
 
             if len('\n'.join(diff)) > 0:
-                messagebox.showinfo("Attention!", "Rules update available!", parent=self.parent)
-        except Exception as e:
-            messagebox.showerror("Error", f"Rule update checking failed: {str(e)}")
+                if messagebox.askyesno("Attention!", "Rules update available!", parent=self.parent):
+                    self.update_rules()
 
-# Try this here and for software update
-# tkinter.messagebox.askyesno(title=None, message=None, **options)¶
-#     Ask a question. Shows buttons YES and NO. Returns True if the answer is yes and False otherwise.
+        except Exception as e:
+            messagebox.showerror("Error", f"Rule update checking failed: {str(e)}", parent=self.parent)
 
     def update_rules(self):
         try:
             response = requests.get(self.rules_url)
             with open(self.rules_file, 'w') as file:
                 file.write(response.text)
-            messagebox.showinfo("Success", "Rules updated successfully!")
+            messagebox.showinfo("Success", "Rules updated successfully!", parent=self.parent)
         except Exception as e:
-            messagebox.showerror("Error", f"Rule update failed: {str(e)}")
+            messagebox.showerror("Error", f"Rule update failed: {str(e)}", parent=self.parent)
 
     def newer_version_found(self) -> bool:
         # compare versions in version.txt
@@ -67,12 +64,13 @@ class Updater:
             return version.parse(github_version) > version.parse(local_version)
 
         except Exception as e:
-            messagebox.showerror("Error", f"Version check failed: {str(e)}")
+            messagebox.showerror("Error", f"Version check failed: {str(e)}", parent=self.parent)
             return False
 
     def check_for_sw_update(self):
         if self.newer_version_found():
-            messagebox.showinfo("Attention!", "New software version available!")
+            if messagebox.askyesno("Attention!", "New software version available!", parent=self.parent):
+                self.update_prog()
 
     def update_prog(self):
         # run upd.exe
@@ -81,6 +79,6 @@ class Updater:
         try:
             subprocess.run(['upd.exe'], check=True)
         except subprocess.CalledProcessError as e:
-            messagebox.showerror("Error", f"Update failed: {str(e)}")
+            messagebox.showerror("Error", f"Update failed: {str(e)}", parent=self.parent)
         except FileNotFoundError:
-            messagebox.showerror("Error", "Update file not found")
+            messagebox.showerror("Error", "Update file not found", parent=self.parent)
