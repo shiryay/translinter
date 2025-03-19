@@ -7,8 +7,8 @@ from tkinter import messagebox
 
 class Updater:
 
-    def __init__(self):
-
+    def __init__(self, parent_window=None):
+        self.parent = parent_window
         self.rules_file = 'rules.json'
         self.rules_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
         self.version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
@@ -34,9 +34,13 @@ class Updater:
             )
 
             if len('\n'.join(diff)) > 0:
-                messagebox.showinfo("Attention!", "Rules update available!")
+                messagebox.showinfo("Attention!", "Rules update available!", parent=self.parent)
         except Exception as e:
             messagebox.showerror("Error", f"Rule update checking failed: {str(e)}")
+
+# Try this here and for software update
+# tkinter.messagebox.askyesno(title=None, message=None, **options)¶
+#     Ask a question. Shows buttons YES and NO. Returns True if the answer is yes and False otherwise.
 
     def update_rules(self):
         try:

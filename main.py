@@ -10,7 +10,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title('Translation Linter')
         self.geometry('760x340')
-        self.updater = Updater()
+        self.updater = Updater(parent_window=self)
         
         self.create_widgets()
         self.updater.check_for_rules_update()
