@@ -16,3 +16,4 @@ Compilation: `pyinstaller --onefile --add-data "rules.json;." --windowed  main.p
 TODO:
 1. Update inform rule to exclude 'information'
 2. Add Suggest Rule button and functionality with telegram bot
+3. Add checks for empty input box and/or exception handling
