@@ -15,4 +15,4 @@ Compilation: `pyinstaller --onefile --add-data "rules.json;." --windowed  main.p
 
 TODO:
 1. Update inform rule to exclude 'information'
-2. Add software update notification functionality
+2. Add Suggest Rule button and functionality with telegram bot
