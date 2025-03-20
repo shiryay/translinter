@@ -2,7 +2,8 @@
 import psutil
 import requests
 
-url = 'https://github.com/shiryay/rulesrepo/raw/refs/heads/main/validate.exe'
+exe_url = 'https://github.com/shiryay/rulesrepo/raw/refs/heads/main/validate.exe'
+version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
 target_process = 'validate.exe'
 
 def is_process_running(process_name):
@@ -17,10 +18,9 @@ def kill_process(process_name):
         except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.TimeoutExpired):
             pass
 
-
-if __name__ == '__main__':
+def update_exe():
     try:
-        response = requests.get(url)
+        response = requests.get(exe_url)
         # close the updated software
         kill_process(target_process)
 
@@ -31,4 +31,17 @@ if __name__ == '__main__':
         else:
             print("Could not terminate the existing process")
     except Exception as e:
-        print(f"Update failed: {str(e)}")
+        print(f"Failed to update program: {str(e)}")
+
+def update_version_txt():
+    try:
+        response = requests.get(version_url)
+        with open('version.txt', 'w') as file:
+            file.write(response.content)
+    except Exception as e:
+        print(f"Failed to update version.txt: {str(e)}")
+
+
+if __name__ == '__main__':
+    update_exe()
+    update_version_txt()
