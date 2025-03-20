@@ -17,3 +17,4 @@ TODO:
 1. Update inform rule to exclude 'information'
 2. Add Suggest Rule button and functionality with telegram bot
 3. Add checks for empty input box and/or exception handling
+4. Improve validation output
