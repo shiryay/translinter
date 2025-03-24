@@ -43,5 +43,9 @@ def update_version_txt():
 
 
 if __name__ == '__main__':
+    # TODO: if cleanup file in repo, delete validate.exe, rules.json and version.txt
+
+    # TODO: if any of validate.exe/rules.json/version.txt or all are missing, download them from repo
+
     update_exe()
     update_version_txt()
