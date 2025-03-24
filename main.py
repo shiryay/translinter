@@ -45,7 +45,13 @@ class MainWindow(tk.Tk):
         self.text_box.delete('1.0', tk.END)
 
     def validate_text(self):
-        validator = Validator(self.text_box.get('1.0', tk.END))
+        text_to_check = self.text_box.get('1.0', tk.END)
+
+        if not text_to_check:
+            self.text_box.insert(tk.END, "No text to validate!")
+            return
+
+        validator = Validator(text_to_check)
         self.report = validator.validate()
         del validator
         self.clear_input()
