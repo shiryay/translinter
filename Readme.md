@@ -16,3 +16,4 @@ Compilation: `pyinstaller --onefile --add-data "rules.json;." --windowed  main.p
 TODO:
 
 1. Update inform rule to exclude 'information'
+2. Fix issue with "Found 1 instances"
