@@ -6,6 +6,7 @@ import requests
 exe_url = 'https://github.com/shiryay/rulesrepo/raw/refs/heads/main/validate.exe'
 version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
 rules_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
+cleanup_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/cleanup'
 target_process = 'validate.exe'
 file_list = ('validate.exe', 'rules.json', 'version.txt')
 
@@ -56,8 +57,19 @@ def fetch_file(file_name):
     else:
         return
 
+def cleanup_required() -> bool:
+    try:
+        response = requests.head(cleanup_url)
+        return response.status_code == 200
+    except Exception:
+        return False
+
 if __name__ == '__main__':
-    # TODO: if cleanup file in repo, delete validate.exe, rules.json and version.txt
+    # Cleanup
+    if cleanup_required():
+        for file in file_list:
+            if os.path.exists(file):
+                os.remove(file)
 
     # Download missing files
     for file in file_list:
