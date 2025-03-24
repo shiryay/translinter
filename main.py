@@ -34,7 +34,7 @@ class MainWindow(tk.Tk):
         self.update_prog_btn.place(x=20, y=170, width=100, height=30)
 
         # Suggest Rule button
-        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=sys.exit)
+        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=suggest_rule)
         self.update_check_btn.place(x=20, y=220, width=100, height=30)
 
         # Exit button
@@ -60,6 +60,27 @@ class MainWindow(tk.Tk):
         del validator
         self.clear_input()
         self.text_box.insert(tk.END, self.report)
+
+    def suggest_rule(self):
+        from tkinter import simpledialog, messagebox
+        import telegram
+        from datetime import datetime
+        import socket
+        
+        try:
+            bot = telegram.Bot(token='YOUR_BOT_TOKEN')
+            suggestion = simpledialog.askstring("Suggest Rule", "Please describe your rule suggestion:", parent=self)
+            
+            if suggestion:
+                # Add PC identifier to the message
+                pc_name = socket.gethostname()
+                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                message = f"New rule suggestion from {pc_name} at {timestamp}:\n{suggestion}"
+                
+                bot.send_message(chat_id='YOUR_CHAT_ID', text=message)
+                messagebox.showinfo("Success", "Thank you! Your suggestion has been sent.", parent=self)
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to send suggestion: {str(e)}", parent=self)
 
 
 if __name__ == '__main__':
