@@ -73,11 +73,11 @@ class Updater:
                 self.update_prog()
 
     def update_prog(self):
-        # run upd.exe
+        # run setup.exe
         import subprocess
 
         try:
-            subprocess.run(['upd.exe'], check=True)
+            subprocess.run(['setup.exe'], check=True)
         except subprocess.CalledProcessError as e:
             messagebox.showerror("Error", f"Update failed: {str(e)}", parent=self.parent)
         except FileNotFoundError:
