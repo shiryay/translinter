@@ -33,9 +33,13 @@ class MainWindow(tk.Tk):
         self.update_prog_btn = tk.Button(self, text='Update Linter', command=self.updater.update_prog)
         self.update_prog_btn.place(x=20, y=170, width=100, height=30)
 
+        # Suggest Rule button
+        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=sys.exit)
+        self.update_check_btn.place(x=20, y=220, width=100, height=30)
+
         # Exit button
         self.update_check_btn = tk.Button(self, text='Exit', command=sys.exit)
-        self.update_check_btn.place(x=20, y=220, width=100, height=30)
+        self.update_check_btn.place(x=20, y=270, width=100, height=30)
 
         # Text box
         self.text_box = tk.Text(self, height=200, width=600)
