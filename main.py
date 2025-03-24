@@ -36,6 +36,7 @@ class MainWindow(tk.Tk):
         # Suggest Rule button
         self.update_check_btn = tk.Button(self, text='Suggest Rule', command=self.suggest_rule)
         self.update_check_btn.place(x=20, y=220, width=100, height=30)
+        self.update_check_btn.config(state='disabled')
 
         # Exit button
         self.update_check_btn = tk.Button(self, text='Exit', command=sys.exit)
