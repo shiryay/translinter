@@ -50,9 +50,15 @@ class Validator:
         for rule in self.rules['rules']:
             pattern = rule['bug']
             results = re.findall(pattern, self.processed_text, re.IGNORECASE)
+            if len(results) == 0:
+                continue
+            self.report.append(f"Found {len(results)} instances:")
+            self.report.append(rule['tip'])
+            self.report.append("---------------")
             for result in results:
-                report_line = f"{result} - {rule['tip']}"
+                report_line = f"\t{result}"
                 self.report.append(report_line)
+            self.report.append("\n")
 
     def load_rules(self) -> None:
         if os.path.exists(self.rules_file):
