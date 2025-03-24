@@ -40,8 +40,9 @@ def update_exe():
 def update_version_txt():
     try:
         response = requests.get(version_url)
+        version_text = response.content.decode('utf8')
         with open('version.txt', 'w') as file:
-            file.write(response.content)
+            file.write(version_text)
     except Exception as e:
         print(f"Failed to update version.txt: {str(e)}")
 
