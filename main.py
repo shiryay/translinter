@@ -34,7 +34,7 @@ class MainWindow(tk.Tk):
         self.update_prog_btn.place(x=20, y=170, width=100, height=30)
 
         # Suggest Rule button
-        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=suggest_rule)
+        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=self.suggest_rule)
         self.update_check_btn.place(x=20, y=220, width=100, height=30)
 
         # Exit button
@@ -68,7 +68,7 @@ class MainWindow(tk.Tk):
         import socket
         
         try:
-            bot = telegram.Bot(token='YOUR_BOT_TOKEN')
+            bot = telegram.Bot(token='7252379080:AAEwoD--Ptjs5c3VkMVb45z_G90747o7rNQ')
             suggestion = simpledialog.askstring("Suggest Rule", "Please describe your rule suggestion:", parent=self)
             
             if suggestion:
@@ -77,7 +77,7 @@ class MainWindow(tk.Tk):
                 timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 message = f"New rule suggestion from {pc_name} at {timestamp}:\n{suggestion}"
                 
-                bot.send_message(chat_id='YOUR_CHAT_ID', text=message)
+                bot.send_message(chat_id='1461312271', text=message)
                 messagebox.showinfo("Success", "Thank you! Your suggestion has been sent.", parent=self)
         except Exception as e:
             messagebox.showerror("Error", f"Failed to send suggestion: {str(e)}", parent=self)
