@@ -1,10 +1,13 @@
 # This just downloads the updated software
+import os
 import psutil
 import requests
 
 exe_url = 'https://github.com/shiryay/rulesrepo/raw/refs/heads/main/validate.exe'
 version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
+rules_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
 target_process = 'validate.exe'
+file_list = ('validate.exe', 'rules.json', 'version.txt')
 
 def is_process_running(process_name):
     return any(proc.info['name'] == process_name for proc in psutil.process_iter(['name']))
@@ -41,11 +44,25 @@ def update_version_txt():
     except Exception as e:
         print(f"Failed to update version.txt: {str(e)}")
 
+def fetch_file(file_name):
+    if file_name == 'validate.exe':
+        update_exe()
+    elif file_name == 'rules.json':
+        response = requests.get(rules_url)
+        with open(file_name, 'wb') as file:
+            file.write(response.content)
+    elif file_name == 'version.txt':
+        update_version_txt()
+    else:
+        return
 
 if __name__ == '__main__':
     # TODO: if cleanup file in repo, delete validate.exe, rules.json and version.txt
 
-    # TODO: if any of validate.exe/rules.json/version.txt or all are missing, download them from repo
-
+    # Download missing files
+    for file in file_list:
+        if not os.path.exists(file):
+            fetch_file(file)
+    
     update_exe()
     update_version_txt()
