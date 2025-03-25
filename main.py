@@ -1,5 +1,6 @@
 import sys
 import tkinter as tk
+import webbrowser
 import validate
 import update
 from validate import Validator
@@ -10,6 +11,7 @@ class MainWindow(tk.Tk):
         super().__init__()
         self.title('Translation Linter')
         self.geometry('760x340')
+        self.email = "shiryaev.sergey@gmail.com"
         self.updater = Updater(parent_window=self)
         
         self.create_widgets()
@@ -33,18 +35,22 @@ class MainWindow(tk.Tk):
         self.update_prog_btn = tk.Button(self, text='Update Linter', command=self.updater.update_prog)
         self.update_prog_btn.place(x=20, y=170, width=100, height=30)
 
-        # Suggest Rule button
-        self.update_check_btn = tk.Button(self, text='Suggest Rule', command=self.suggest_rule)
-        self.update_check_btn.place(x=20, y=220, width=100, height=30)
-        self.update_check_btn.config(state='disabled')
-
         # Exit button
         self.update_check_btn = tk.Button(self, text='Exit', command=sys.exit)
-        self.update_check_btn.place(x=20, y=270, width=100, height=30)
+        self.update_check_btn.place(x=20, y=220, width=100, height=30)
+
+        # Email label
+        self.label = tk.Label(self, text="Suggest a rule", cursor="hand2", fg="blue")
+        self.label.place(x=20, y=270, width=100, height=30)
+        self.label.bind("<Button-1>", lambda e: self.open_email_client())
 
         # Text box
         self.text_box = tk.Text(self, height=200, width=600)
         self.text_box.place(x=140, y=20, width=600, height=300)
+
+    def open_email_client(self):
+        url = f"mailto:{self.email}"
+        webbrowser.open_new_tab(url)
 
     def clear_input(self):
         self.text_box.delete('1.0', tk.END)
@@ -61,27 +67,6 @@ class MainWindow(tk.Tk):
         del validator
         self.clear_input()
         self.text_box.insert(tk.END, self.report)
-
-    def suggest_rule(self):
-        from tkinter import simpledialog, messagebox
-        import telegram
-        from datetime import datetime
-        import socket
-        
-        try:
-            bot = telegram.Bot(token='7252379080:AAEwoD--Ptjs5c3VkMVb45z_G90747o7rNQ')
-            suggestion = simpledialog.askstring("Suggest Rule", "Please describe your rule suggestion:", parent=self)
-            
-            if suggestion:
-                # Add PC identifier to the message
-                pc_name = socket.gethostname()
-                timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                message = f"New rule suggestion from {pc_name} at {timestamp}:\n{suggestion}"
-                
-                bot.send_message(chat_id='1461312271', text=message)
-                messagebox.showinfo("Success", "Thank you! Your suggestion has been sent.", parent=self)
-        except Exception as e:
-            messagebox.showerror("Error", f"Failed to send suggestion: {str(e)}", parent=self)
 
 
 if __name__ == '__main__':
