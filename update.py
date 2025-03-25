@@ -13,6 +13,7 @@ class Updater:
         self.rules_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/rules.json'
         self.version_url = 'https://raw.githubusercontent.com/shiryay/rulesrepo/refs/heads/main/version.txt'
 
+
     def check_for_rules_update(self):
         try:
             # Get GitHub content
@@ -69,7 +70,7 @@ class Updater:
 
     def check_for_sw_update(self):
         if self.newer_version_found():
-            if messagebox.askyesno("Attention!", "New software version available!", parent=self.parent):
+            if messagebox.askyesno("Attention!", "New software version available! Update?", parent=self.parent):
                 self.update_prog()
 
     def update_prog(self):
@@ -82,3 +83,4 @@ class Updater:
             messagebox.showerror("Error", f"Update failed: {str(e)}", parent=self.parent)
         except FileNotFoundError:
             messagebox.showerror("Error", "Update file not found", parent=self.parent)
+

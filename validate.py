@@ -52,7 +52,11 @@ class Validator:
             results = re.findall(pattern, self.processed_text, re.IGNORECASE)
             if len(results) == 0:
                 continue
-            self.report.append(f"Found {len(results)} instances:")
+            elif len(results) == 1:
+                count_word = 'instance'
+            else:
+                count_word = 'instances'
+            self.report.append(f"Found {len(results)} {count_word}:")
             self.report.append(rule['tip'])
             self.report.append("---------------")
             for result in results:

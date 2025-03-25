@@ -15,8 +15,8 @@ class MainWindow(tk.Tk):
         self.updater = Updater(parent_window=self)
         
         self.create_widgets()
-        self.updater.check_for_rules_update()
         self.updater.check_for_sw_update()
+        self.updater.check_for_rules_update()
 
     def create_widgets(self):
         # File selection buttons

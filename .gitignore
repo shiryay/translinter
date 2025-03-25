@@ -10,6 +10,7 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+*.spec
 
 # Virtual environments
 venv/
@@ -28,4 +29,5 @@ ENV/
 # Local development settings
 .env
 .env.local
+
 
